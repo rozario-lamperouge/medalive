@@ -1,0 +1,11 @@
+<html>
+<div class="module">
+    <h1>Create a new admin account</h1>
+    <form method="post" action="{% url 'admin:admin_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign up</button>
+    </form>
+</div>
+
+</html>
