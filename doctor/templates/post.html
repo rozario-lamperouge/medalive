@@ -1,0 +1,16 @@
+<html>
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+
+{% for image in post.images.all %}
+<img src="{{ image.image.url }}" alt="Post Image">
+{% endfor %}
+
+{% for video in post.videos.all %}
+<video controls>
+    <source src="{{ video.video.url }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+{% endfor %}
+
+</html>
