@@ -50,27 +50,19 @@ class Vendor(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
-    images = models.ManyToManyField('Image')
-    videos = models.ManyToManyField('Video')
+    medias = models.ManyToManyField('Media')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
-class Image(models.Model):
-    image = models.ImageField(upload_to='post_images/')
+class Media(models.Model):
+    media = models.FileField(upload_to='')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.image.name
-
-class Video(models.Model):
-    video = models.FileField(upload_to='post_videos/')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.video.name
+        return self.media.name
 
 
 class Patient(models.Model):

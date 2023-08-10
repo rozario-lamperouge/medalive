@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-1v9(lo=u@2t##5%48502fh0y=fd+q0c*0+rg_$5e-l0-s&_#%h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','10.0.2.2','localhost']
 
 
 # Application definition
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
-    'doctor'
+    'doctor',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
 
 ROOT_URLCONF = 'medalive.urls'
 
@@ -123,10 +132,33 @@ EMAIL_FROM = 'richardrozario.a@gmail.com'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
+AWS_ACCESS_KEY_ID = 'AKIARA2XXBFKTILNEJO3'
+AWS_SECRET_ACCESS_KEY = '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' 
+AWS_STORAGE_BUCKET_NAME = 'medalivebucket'
+AWS_S3_SIGNATURE_NAME = 's3v4'
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'media'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  'public-read'
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
+
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

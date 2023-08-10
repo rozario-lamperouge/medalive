@@ -1,16 +1,21 @@
-<html>
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_filters %}
+
 <h1>{{ post.title }}</h1>
 <p>{{ post.content }}</p>
 
-{% for image in post.images.all %}
-<img src="{{ image.image.url }}" alt="Post Image">
-{% endfor %}
-
-{% for video in post.videos.all %}
+{% for media in post.medias.all %}
+{% if media.media.url|file_extension_is_image %}
+<img src="{{media.media.url}}" alt="Image" width="200">
+{% elif media.media.url|file_extension_is_video %}
 <video controls>
-    <source src="{{ video.video.url }}" type="video/mp4">
+    <source src="{{ media.media.url }}" type="video/mp4" width="200">
     Your browser does not support the video tag.
 </video>
+{% else %}
+<p>This media file format is not supported.</p>
+{% endif %}
 {% endfor %}
-
-</html>
+{% endblock %}

@@ -1,13 +1,14 @@
 from django import forms
 from user.models import Post
+from django.contrib.auth.models import User, Group
 
 class PostForm(forms.ModelForm):
+    medias = forms.FileField()
+
     class Meta:
         model = Post
-        fields = ['title', 'content', 'images', 'videos']
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'images': forms.ClearableFileInput(attrs={'multiple': True}),
-            'videos': forms.ClearableFileInput(attrs={'multiple': True}),
-        }
+        fields = ['title', 'content', 'medias']
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
